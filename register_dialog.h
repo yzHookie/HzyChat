@@ -15,7 +15,6 @@
 namespace Ui {
 class RegisterDialog;
 }
-
 class RegisterDialog : public QDialog
 {
     Q_OBJECT
@@ -23,8 +22,10 @@ class RegisterDialog : public QDialog
 public:
     explicit RegisterDialog(QWidget *parent = nullptr);
     ~RegisterDialog();
-
+public slots:
+    void OnGetCodeClicked();
 private:
+    void ShowTip(QString tip, bool ok);
     Ui::RegisterDialog *ui;
 };
 

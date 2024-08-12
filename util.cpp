@@ -1,6 +1,6 @@
-#include "global.h"
+#include "util.h"
 
-namespace global {
+namespace util {
 void repolish(QWidget *w) {
     w->style()->unpolish(w);
     w->style()->polish(w);
