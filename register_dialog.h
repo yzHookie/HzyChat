@@ -2,7 +2,7 @@
 #define REGISTER_DIALOG_H
 
 #include <QDialog>
-
+#include "global.h"
 /******************************************************************************
  *
  * @file       register_dialog.h
@@ -23,10 +23,14 @@ public:
     explicit RegisterDialog(QWidget *parent = nullptr);
     ~RegisterDialog();
 public slots:
-    void OnGetCodeClicked();
+    void slot_get_code_clicked();
+    void slot_reg_mod_finish(ReqId id, QString res, ErrorCodes err);
 private:
     void ShowTip(QString tip, bool ok);
+    void InitHttpHandlers();
     Ui::RegisterDialog *ui;
+
+    QMap<ReqId, std::function<void(const QJsonObject&)>> handlers_;
 };
 
 #endif // REGISTER_DIALOG_H
