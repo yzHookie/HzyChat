@@ -36,6 +36,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         singleton.h
         http_mgr.h http_mgr.cpp
         global.h global.cpp
+        config.ini
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET HzyChat APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -54,6 +55,28 @@ else()
     )
 endif()
 endif()
+
+# 设置目标配置文件路径
+set(TargetConfig "${CMAKE_CURRENT_SOURCE_DIR}/config.ini")
+
+# 将路径中的斜杠替换为反斜杠
+string(REPLACE "/" "\\" TargetConfig "${TargetConfig}")
+
+# 设置输出目录
+set(OutputDir "${CMAKE_CURRENT_BINARY_DIR}")
+
+# 将输出目录中的斜杠替换为反斜杠
+string(REPLACE "/" "\\" OutputDir "${OutputDir}")
+
+# 添加自定义命令，在构建后执行复制操作
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${TargetConfig}"
+    "${OutputDir}"
+    COMMENT "Copying config.ini to ${OutputDir}"
+)
+
 
 target_link_libraries(HzyChat PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network)
 
