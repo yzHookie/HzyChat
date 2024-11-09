@@ -12,8 +12,8 @@ RegisterDialog::RegisterDialog(QWidget *parent)
     , ui(new Ui::RegisterDialog)
 {
     ui->setupUi(this);
-    connect(ui->verify_code_button, &QPushButton::clicked, this, &RegisterDialog::slot_get_code_clicked);
-    connect(HttpMgr::GetInstance().get(), &HttpMgr::sig_reg_mod_finish, this, &RegisterDialog::slot_reg_mod_finish);
+    connect(ui->verify_code_button, &QPushButton::clicked, this, &RegisterDialog::OnGetCodeClicked);
+    connect(HttpMgr::GetInstance().get(), &HttpMgr::SigReqModFinish, this, &RegisterDialog::SlotReqModFinish);
     ui->err_tip->setProperty("state", "normal");
     util::repolish(ui->err_tip);
     regex.setPattern(R"((\w+)(\.|_)?(\w*)@(\w+)(\.(\w+))+)");
@@ -27,7 +27,7 @@ RegisterDialog::~RegisterDialog()
     delete ui;
 }
 
-void RegisterDialog::slot_get_code_clicked() {
+void RegisterDialog::OnGetCodeClicked() {
     QString email = ui->email_edit->text();
 
     bool match = regex.match(email).hasMatch();
